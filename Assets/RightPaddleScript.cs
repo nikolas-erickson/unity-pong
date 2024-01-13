@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RightPaddleScript : MonoBehaviour
 {
-    public float moveSpeed = 0.5f;
+    [SerializeField] private float moveSpeed;
 
 
     // Start is called before the first frame update

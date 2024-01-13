@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Timeline.Actions;
 using UnityEngine;
 
 public class LeftPaddleScript : MonoBehaviour
 {
-    public float moveSpeed = 0.5f;
+    [SerializeField] private float moveSpeed;
+    [SerializeField] private GameObject ball;
+
+    private bool aiMode;
 
 
     // Start is called before the first frame update
@@ -17,15 +21,50 @@ public class LeftPaddleScript : MonoBehaviour
     void Update()
     {
         
-        if(transform.position.y < 11 && Input.GetKey(KeyCode.W))
+        if(!aiMode)
         {
-            transform.position += Vector3.up * moveSpeed;
+            if(transform.position.y < 11 && Input.GetKey(KeyCode.W))
+            {
+                transform.position += Vector3.up * moveSpeed;
+            }
+            
+            if(transform.position.y > -11 && Input.GetKey(KeyCode.S))
+            {
+                transform.position -= Vector3.up * moveSpeed;
+            }
+        }
+        else
+        {
+            if(transform.position.y < 11 && underBall())
+            {
+                transform.position += Vector3.up * moveSpeed;
+            }
+            
+            if(transform.position.y > -11 && overBall())
+            {
+                transform.position -= Vector3.up * moveSpeed;
+            }
         }
         
-        if(transform.position.y > -11 && Input.GetKey(KeyCode.S))
-        {
-            transform.position -= Vector3.up * moveSpeed;
-        }
-        
+    }
+
+    public void enableTwoPlayerMode()
+    {
+        aiMode = false;
+    }
+
+    public void enableSinglePlayerMode()
+    {
+        aiMode = true;
+    }
+
+    private bool underBall()
+    {
+        return transform.position.y<ball.transform.position.y;
+    }
+
+    private bool overBall()
+    {
+        return transform.position.y>ball.transform.position.y;
     }
 }

@@ -26,9 +26,11 @@ public class GameLogicScript : MonoBehaviour
     public GameObject net;
     public Text player0Score;
     public Text player1Score;
+    [SerializeField] private LeftPaddleScript leftPaddleScript;
     private int[] score;
     private bool isPlaying;
     private bool isPaused;
+    private int numPlayers;
 
     // Start is called before the first frame update
     void Start()
@@ -38,12 +40,13 @@ public class GameLogicScript : MonoBehaviour
         currentScreen = Screen.eTitleScreen;
         changeScreen(currentScreen);
         score = new int[2];
+        leftPaddleScript = leftPaddle.GetComponent<LeftPaddleScript>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        //keys for pause and exit
         if(Input.GetKeyDown(KeyCode.P))
         {
             pauseGame();
@@ -61,9 +64,18 @@ public class GameLogicScript : MonoBehaviour
         Application.Quit();
     }
 
-    public void startGame()
+    public void startGame(int nPlayers)
     {
         isPlaying = true;
+        numPlayers = nPlayers;
+        if(numPlayers == 1)
+        {
+            leftPaddleScript.enableSinglePlayerMode();
+        }
+        else if(numPlayers == 2)
+        {
+            leftPaddleScript.enableTwoPlayerMode();
+        }
         changeScreen(Screen.eGameScreen);
         score[0] = score[1] = -1;
         addPoint(0);
@@ -73,6 +85,11 @@ public class GameLogicScript : MonoBehaviour
     public void endGame()
     {
         changeScreen(Screen.eEndScreen);
+    }
+
+    public void goToTitleScreen()
+    {
+        changeScreen(Screen.eTitleScreen);
     }
 
     public void pauseGame()
