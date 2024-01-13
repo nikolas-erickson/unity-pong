@@ -11,12 +11,14 @@ public class GameLogicScript : MonoBehaviour
     private enum Screen
     {
         eTitleScreen,
+        eTitleScreenInstructions,
         eEndScreen,
         eGameScreen,
         ePauseScreen
     }
     private Screen currentScreen;
     public Canvas titleScreen;
+    public Canvas titleScreenInstructions;
     public Canvas playScreen;
     public Canvas pauseScreen;
     public Canvas endScreen;
@@ -92,6 +94,11 @@ public class GameLogicScript : MonoBehaviour
         changeScreen(Screen.eTitleScreen);
     }
 
+    public void goToTitleScreenInstructions()
+    {
+        changeScreen(Screen.eTitleScreenInstructions);
+    }
+
     public void pauseGame()
     {
         if(isPlaying && !isPaused)
@@ -112,6 +119,17 @@ public class GameLogicScript : MonoBehaviour
         {
             Debug.Log("Launching Title Screen.");
             titleScreen.enabled = true;
+            titleScreenInstructions.enabled = false;
+            pauseScreen.enabled = false;
+            playScreen.enabled = false;
+            showGameElements(false);
+            endScreen.enabled = false;
+        }
+        else if (newScreen == Screen.eTitleScreenInstructions)
+        {
+            Debug.Log("Launching Title Screen Instructions.");
+            titleScreen.enabled = false;
+            titleScreenInstructions.enabled = true;
             pauseScreen.enabled = false;
             playScreen.enabled = false;
             showGameElements(false);
@@ -121,6 +139,7 @@ public class GameLogicScript : MonoBehaviour
         {
             Debug.Log("Launching Game Screen.");
             titleScreen.enabled = false;
+            titleScreenInstructions.enabled = false;
             pauseScreen.enabled = false;
             playScreen.enabled = true;
             showGameElements(true);
@@ -130,6 +149,7 @@ public class GameLogicScript : MonoBehaviour
         {
             Debug.Log("Launching End Screen.");
             titleScreen.enabled = false;
+            titleScreenInstructions.enabled = false;
             pauseScreen.enabled = false;
             playScreen.enabled = false;
             showGameElements(false);
@@ -139,6 +159,7 @@ public class GameLogicScript : MonoBehaviour
         {
             Debug.Log("Launching Pause Screen.");
             titleScreen.enabled = false;
+            titleScreenInstructions.enabled = false;
             pauseScreen.enabled = true;
             playScreen.enabled = false;
             showGameElements(false);
