@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ public class BallScript : MonoBehaviour
     float moveSpeed;
     private float timer;
     private float startDelay;
+    private float speedModifier = 60f;
     public GameLogicScript gameLogicManager;
     public int screenTop = 10;
 
@@ -19,9 +21,9 @@ public class BallScript : MonoBehaviour
     {
         Debug.Log("ball.start()");
         transform.position = new Vector3(0,0,0);
-        velocity = new Vector3(1,0,0);
+        velocity = Vector3.right * speedModifier;
         started = false;
-        startDelay = .5f;
+        startDelay = 2f;
         moveSpeed = 0.3f;
     }
 
@@ -42,12 +44,16 @@ public class BallScript : MonoBehaviour
                 gameLogicManager.addPoint(0);
                 resetBall(0);
             }
-            if(transform.position.y < 0-screenTop || transform.position.y > screenTop)
+            if(transform.position.y < 0-screenTop)
             {
-                velocity.y = 0 - velocity.y;
+                velocity.y = math.abs(velocity.y);
+            }
+            else if (transform.position.y > screenTop)
+            {
+                velocity.y = -math.abs(velocity.y);
             }
 
-            transform.position += velocity * moveSpeed;
+            transform.position += velocity * moveSpeed * Time.deltaTime;
         }
         else
         {
@@ -67,14 +73,14 @@ public class BallScript : MonoBehaviour
         int spawnRangeTop = screenTop;
         int spawnRangeBottom = 0;
         Start();
-        velocity = new Vector3((1-servingTo*2),-0.25f,0);
-        transform.position = new Vector3(0, Random.Range(spawnRangeTop, spawnRangeBottom));
+        velocity = new Vector3((1-servingTo*2),-0.25f,0) * speedModifier;
+        transform.position = new Vector3(0, UnityEngine.Random.Range(spawnRangeTop, spawnRangeBottom));
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         float xVel = 0 - velocity.x;
-        float yVel = transform.position.y - other.transform.position.y;
+        float yVel = (transform.position.y - other.transform.position.y)*speedModifier;
         velocity = new Vector3(0-velocity.x, yVel);
     }
 }

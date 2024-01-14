@@ -23,24 +23,24 @@ public class LeftPaddleScript : MonoBehaviour
         {
             if(transform.position.y < 11 && Input.GetKey(KeyCode.W))
             {
-                transform.position += Vector3.up * moveSpeed;
+                transform.position += Vector3.up * moveSpeed * Time.deltaTime;
             }
             
             if(transform.position.y > -11 && Input.GetKey(KeyCode.S))
             {
-                transform.position -= Vector3.up * moveSpeed;
+                transform.position -= Vector3.up * moveSpeed * Time.deltaTime;
             }
         }
         else
         {
             if(transform.position.y < 11 && underBall())
             {
-                transform.position += Vector3.up * moveSpeed;
+                transform.position += Vector3.up * moveSpeed * Time.deltaTime;
             }
             
             if(transform.position.y > -11 && overBall())
             {
-                transform.position -= Vector3.up * moveSpeed;
+                transform.position -= Vector3.up * moveSpeed * Time.deltaTime;
             }
         }
         

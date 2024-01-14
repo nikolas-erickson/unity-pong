@@ -20,12 +20,12 @@ public class RightPaddleScript : MonoBehaviour
         if(transform.position.y < 11 && Input.GetKey(KeyCode.UpArrow))
         {
             Debug.Log("going up");
-            transform.position += Vector3.up * moveSpeed;
+            transform.position += Vector3.up * moveSpeed * Time.deltaTime;
         }
         
         if(transform.position.y > -11 && Input.GetKey(KeyCode.DownArrow))
         {
-            transform.position -= Vector3.up * moveSpeed;
+            transform.position -= Vector3.up * moveSpeed * Time.deltaTime;
         }
         
     }
