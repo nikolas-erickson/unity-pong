@@ -9,6 +9,7 @@
 - A game goes to 10 points, gives a GAME OVER message and restarts
 
 ## Compiling the code
+I am using Unity version 2022.3.16f1. You can try with other versions but your mileage may vary.
 Updating the code will require a new build. If you do not already have unity installed see the [instructions](#installing-unity) below.
 1) Download the .zip file from github.
 2) Extract the contents of the zipped file into a new file.
